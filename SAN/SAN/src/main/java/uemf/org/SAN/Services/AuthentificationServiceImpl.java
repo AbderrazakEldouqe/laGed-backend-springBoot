@@ -8,12 +8,16 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.security.authentication.AuthenticationManager;
 
 import uemf.org.SAN.Models.UserDTO;
 import uemf.org.SAN.Security.TokenProvider;
 
 @Service
+@Slf4j
 public class AuthentificationServiceImpl implements AuthentificationService {
 
 	@Autowired
@@ -33,7 +37,7 @@ public class AuthentificationServiceImpl implements AuthentificationService {
 			String token = tokenProvider.createToken(authentication , userDTO);
 			return token;
 		} catch (BadCredentialsException e) {
-			//log.warn("Erreur auth : {}", e.getMessage());
+			log.warn("Erreur auth : {}", e.getMessage());
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "login.password.incorect");
 		}
 	}

@@ -28,7 +28,8 @@ import lombok.extern.slf4j.Slf4j;
 import uemf.org.SAN.Models.UserDTO;
 
 
-
+@Component
+@Slf4j
 public class TokenProvider {
 
 	
@@ -89,7 +90,7 @@ public class TokenProvider {
 	}
 
 	
-	/*public Authentication getAuthentication(String token) {
+	public Authentication getAuthentication(String token) {
 		Claims claims = parse(token);
 		Object auths = claims.get(SecurityConstants.AUTHORITIES_KEY);
 		Collection<? extends GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
@@ -101,15 +102,15 @@ public class TokenProvider {
 		}
 		User principal = new User(claims.getSubject(), "", authorities);
 		return new UsernamePasswordAuthenticationToken(principal, null, authorities);
-	}*/
+	}
 
 	public boolean validateToken(String token) {
 		try {
 			Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
 			return true;
 		} catch (Exception e) {
-			e.getMessage();
-			//log.debug("Invalid JWT token : {}", e.getMessage());
+
+			log.debug("Invalid JWT token : {}", e.getMessage());
 		}
 		return false;
 	}

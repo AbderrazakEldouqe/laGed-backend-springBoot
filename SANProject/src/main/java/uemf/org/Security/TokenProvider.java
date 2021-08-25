@@ -2,6 +2,7 @@ package uemf.org.Security;
 
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -16,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
@@ -24,66 +26,52 @@ import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
-
+import uemf.org.Models.CustomUserDetailsDTO;
 import uemf.org.Models.UserDTO;
 
 
 @Component
 @Slf4j
-public class TokenProvider {
+public class TokenProvider implements Serializable{
 
 	
 	@Value("${app.security.secret-key}")
 	private String secretKey;
-	@Value("${app.security.token-validity:}")
-	private Long tokenValidity;
-	@Value("${app.security.remember-me-token-validity:}")
-	private Long rememberMeTokenValidity;
 
 
-	public String createToken(String username, Date validity, Map<String, Object>claims) {
-		JwtBuilder jwtBuilder = Jwts
-				.builder()
-				.signWith(SignatureAlgorithm.HS512, secretKey)
-				.setSubject(username)
-				.setIssuedAt(new Date())
-		;
-		if (claims != null) {
-			jwtBuilder.addClaims(claims);
 
-		}
-		if (validity != null) {
-			jwtBuilder.setExpiration(validity);
-		}
-		return jwtBuilder.compact();
-	}
 
-	public String createToken(String authorities, UserDTO userDTO) {
-		boolean remember = ObjectUtils.nullSafeEquals(userDTO.getRememberMe(), true);
-		long now = (new Date()).getTime();
-		Date validity = null;
-		if (remember && rememberMeTokenValidity != null) {
-			validity = new Date(now + rememberMeTokenValidity * 1000);
-		} else if (!remember && tokenValidity != null) {
-			validity = new Date(now + tokenValidity * 1000);
-		}
 
-		Map<String, Object> claims = new HashMap();
-		claims.put(SecurityConstants.AUTHORITIES_KEY, authorities);
-		claims.put(SecurityConstants.ID_USER, userDTO.getIdUser());
-		claims.put(SecurityConstants.User_NAME, userDTO.getUserFullNmae());
-		claims.put(SecurityConstants.User_ROLE, userDTO.getUserRole());
+	public String createToken(String authorities, CustomUserDetailsDTO userDetails) {
+		Map<String, Object> claims = new HashMap<>();
 		
-		return createToken(userDTO.getLogin(), validity, claims);
-	}
+		if (claims != null) {
+			
+			claims.put(SecurityConstants.AUTHORITIES_KEY, authorities);
+			claims.put(SecurityConstants.ID_USER, userDetails.getIdUser());
+			claims.put(SecurityConstants.User_NAME, userDetails.getUsername());
+			claims.put(SecurityConstants.User_ROLE, userDetails.getUserRole());
 
-	public String createToken(Authentication authentication, UserDTO userDTO) {
+		}
+	
+		JwtBuilder jwtBuilder = Jwts.builder().setClaims(claims)
+				                .setSubject(userDetails.getUsername())
+				                .setIssuedAt(new Date(System.currentTimeMillis()))
+				            	.setExpiration(new Date(System.currentTimeMillis() + 360*1000))
+				            	.signWith(SignatureAlgorithm.HS512, secretKey);
+		
+		
+		return jwtBuilder.compact();
+		
+   	}
+
+	public String createToken(Authentication authentication, CustomUserDetailsDTO userDetails) {
 		String authorities = authentication.getAuthorities().stream()
 				.map(GrantedAuthority::getAuthority)
 				.collect(Collectors.joining(","));
-		
-		return createToken(authorities, userDTO);
+		return createToken(authorities, userDetails);
 	}
+	
 
 	public Claims parse(String token) {
 		return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
@@ -113,6 +101,16 @@ public class TokenProvider {
 			log.debug("Invalid JWT token : {}", e.getMessage());
 		}
 		return false;
+	}
+	
+	
+	
+	
+	public String getUsernameFromToken(String token) {
+		// TODO Auto-generated method stub
+		final Claims claims =  Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+		 String username = claims.getSubject();
+		 return username;
 	}
 	
 	

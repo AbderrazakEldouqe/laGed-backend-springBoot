@@ -10,12 +10,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Table(name="Utilisateur")
+@Table(name="Utilisateurs")
 @Entity
 @Getter @Setter 
 @AllArgsConstructor @NoArgsConstructor
@@ -26,10 +28,10 @@ public class UserEntity {
 	@Column(name= "id_utilisateur")
 	private Long idUser;
 	
-	@Column(name= "login")
+	@Column(name= "login" ,nullable= false, unique=true)
 	private String login;
 	
-	@Column(name= "password")
+	@Column(name= "password" ,nullable= false)
 	private String passWord;
 	
 	@Column(name= "nom_complet")

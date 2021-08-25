@@ -1,26 +1,23 @@
 package uemf.org.ServicesImpl;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import lombok.extern.slf4j.Slf4j;
-
-import org.springframework.security.authentication.AuthenticationManager;
-
+import uemf.org.Models.CustomUserDetailsDTO;
 import uemf.org.Models.UserDTO;
 import uemf.org.Repositories.UserRepository;
 import uemf.org.Security.TokenProvider;
@@ -44,53 +41,64 @@ public class AuthentificationServiceImpl implements AuthentificationService , Us
 	UserTransformer userTransformer;
 	
 	
-	public String authUser(String login, String passWord) {
-		
-		UserDTO userDTO= userTransformer.entityToDTO(userRepository.findByLoginAndPassWord(login, passWord));
-
-		if(userDTO == null)
-			{
-			log.warn("Erreur: UserDTO est null");
-			  return null;
-			}
+	@Autowired
+	PasswordEncoder passwordEncoder;
+	
+	public CustomUserDetailsDTO authUser(String login, String passWord)
+	{
 		
 		try {
-			UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken
-					(login, passWord);
+			
+			/* for (UserEntity userEntity : userRepository.findAll()) 
+				{
+					userEntity.setPassWord(passwordEncoder.encode(userEntity.getPassWord()));
+					userRepository.save(userEntity);
+					System.out.println("Password:  "+userEntity.getPassWord());
 
-			Authentication authentication = authenticationManager.authenticate(authenticationToken);
-			SecurityContextHolder.getContext().setAuthentication(authentication);
-			String token = tokenProvider.createToken(authentication , userDTO);
-			return token;
+				}
+			
+			*/
+
+			UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(login,passWord);
+			Authentication authenticationRequest = authenticationManager.authenticate(authenticationToken);
+			final CustomUserDetailsDTO userDetails =  (CustomUserDetailsDTO) loadUserByUsername(authenticationRequest.getName());
+			SecurityContextHolder.getContext().setAuthentication(authenticationRequest);
+			String jwtToken= tokenProvider.createToken(authenticationRequest , userDetails);
+			userDetails.setJwtToken(jwtToken);
+			
+			return  userDetails;
+			
+			//return  tokenProvider.createToken(authenticationRequest , userDetails);
+
 		} catch (BadCredentialsException e) {
+			
 			log.warn("Erreur auth : {}", e.getMessage());
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "login.password.incorect");
+			throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "login.password.incorect");
 		}
+		 catch (DisabledException e) {
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "USER_DISABLED");
+			}
 	}
 
 
 	@Override
-	public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
+	@Transactional
+	public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException
+	{
 		
 		UserDTO userDTO =  userTransformer.entityToDTO(userRepository.findByLogin(login));
 		
-		if(userDTO == null)
-		{
-			// a ajouter les exceptions
-			log.warn("Erreur: UserDTO est null");
-			return null;
+		if (userDTO == null) {
+			throw new UsernameNotFoundException("UserName " + login + " not found");
 		}
-		else 
-		{
-			log.info("Utilisateur trouve dans la BD: {}", login);
-			
-		}
-	    Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-		return new  org.springframework.security.core.userdetails.User(userDTO.getLogin(), userDTO.getPassWord(), authorities);
 
-		
+		return new CustomUserDetailsDTO(userDTO);
 
-		
 	}
 
+
+
+	
+	
+	
 }

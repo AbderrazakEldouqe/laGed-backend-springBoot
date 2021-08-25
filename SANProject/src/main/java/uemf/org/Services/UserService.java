@@ -3,8 +3,9 @@ package uemf.org.Services;
 import uemf.org.Models.UserDTO;
 
 public interface UserService {
+	
+	UserDTO getUserById(Long id);
 
-	UserDTO getUserByLoginAndPassWord(String login, String passWord);
 	
 
 }

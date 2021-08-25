@@ -28,48 +28,54 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private JwtRequestFilter jwtRequestFilter;
 	
-	
+	private static String[] PUBLIC_URI= {
+			"/v2/api-docs",
+            "/configuration/ui",
+            "/swagger-resources/**",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+            "/apiAuth/**"
+	};
    
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
 		 http
-	        .csrf().disable()
+		    .cors().and()
+		    .csrf().disable()
+	        // add Filter pour valider le token avec chaq req
 	        .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
 	        .sessionManagement()
 	        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 	    .and()
 			.authorizeRequests()
-				.antMatchers(
-						"/v2/api-docs",
-                        "/configuration/ui",
-                        "/swagger-resources/**",
-                        "/configuration/security",
-                        "/swagger-ui.html",
-                        "/webjars/**",
-                        "/apiAuth/**"
-						).permitAll()
+				.antMatchers(PUBLIC_URI).permitAll()
 				// Toutes les req nécessitent une auth
 				.anyRequest().authenticated()
-		.and().exceptionHandling() ;
+		.and().exceptionHandling();
 
 	 }
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 	  
-		auth.userDetailsService(userDetailsService);
+		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 	}
+	
+	
+	
+	@Bean
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+	    return super.authenticationManagerBean();
+	}
+
+	
 	
 	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	
-	@Bean
-	public AuthenticationManager authenticationManagerBean() throws Exception {
-	    return super.authenticationManagerBean();
-	}
-	
+
 }

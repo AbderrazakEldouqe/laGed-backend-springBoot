@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
 import uemf.org.Models.UserDTO;
 import uemf.org.Repositories.UserRepository;
-import uemf.org.Transformers.UserTransformer;
 import uemf.org.Services.UserService;
+import uemf.org.Transformers.UserTransformer;
 
 @Service
 @Slf4j
@@ -20,9 +20,8 @@ public class UserServiceImpl implements UserService{
 	UserTransformer userTransformer;
 
 	@Override
-	public UserDTO getUserByLoginAndPassWord(String login, String passWord) {
-		
-		return userTransformer.entityToDTO(userRepository.findByLoginAndPassWord(login, passWord));
+	public UserDTO getUserById(Long id) {
+		return userTransformer.entityToDTO(userRepository.getById(id));
 	}
 
 

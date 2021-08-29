@@ -13,7 +13,7 @@ import lombok.Setter;
 public class EtudiantDocumentAnnuleDTO implements Serializable {
 
 	private Long idEtudiantDocumentAnnule;
-	private EtudiantDocumentAnnuleDTO etudiantDocumentAnnuleDTO;
+	private EtudiantDocumentDTO etudiantDocumentDTO;
 	private Date dateAnnulation;
 	private String motif;
 	private String annulePar;

@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -27,6 +28,7 @@ public class EtudiantDocumentAnnuleEntity {
 	private Long idEtudiantDocumentAnnule;
 	
 	@ManyToOne
+	@JoinColumn(name= "id_etudiant_document")
 	private EtudiantDocumentEntity etudiantDocumentEntity;
 	
 	@Column(name= "date_annulation")

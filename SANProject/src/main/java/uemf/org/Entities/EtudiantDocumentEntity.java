@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -27,9 +28,11 @@ public class EtudiantDocumentEntity {
 	private Long idEtudiantDocument;
 	
 	@ManyToOne
+	@JoinColumn(name="id_etudiant")
 	private EtudiantEntity etudiantEntity;
 	
 	@ManyToOne
+	@JoinColumn(name="id_document")
 	private DocumentEntity documentEntity;
 	
 	@Column(name= "libelle_compl")

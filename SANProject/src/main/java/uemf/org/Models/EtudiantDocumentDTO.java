@@ -12,14 +12,15 @@ import lombok.Setter;
 @AllArgsConstructor @NoArgsConstructor
 public class EtudiantDocumentDTO implements Serializable {
 
-	private Long idEtudiantDocument;
+	private Long idDocument;
 	private EtudiantDTO etudiantDTO;
-	private DocumentDTO documentDTO;
+	private CategorieDTO categorieDTO;
 	private String libelleCompl;
+	private String anneeScolaire;
 	private String cheminDoc;
-	private String annee;
+	private String nomDoc;
 	private Date dateCreation;
 	private String createur;
-	
+
 	
 }

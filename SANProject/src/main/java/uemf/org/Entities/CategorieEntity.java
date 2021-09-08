@@ -23,6 +23,9 @@ public class CategorieEntity {
 	@Column(name= "id_categorie")
 	private Long idCategorie;
 	
-	@Column(name= "intitule")
-	private String intitule;
+	@Column(name= "libelle")
+	private String libelle;
+	
+	@Column(name= "cat_doc")
+	private String catDoc;
 }

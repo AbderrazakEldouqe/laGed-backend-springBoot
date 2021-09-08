@@ -12,5 +12,6 @@ import lombok.Setter;
 public class CategorieDTO implements Serializable {
 
 	private Long idCategorie;
-	private String intitule;
+	private String libelle;
+	private String catDoc;
 }

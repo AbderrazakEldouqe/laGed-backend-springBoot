@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
+import uemf.org.Models.EtudiantDTO;
 import uemf.org.Repositories.EtudiantDocumentRepository;
 import uemf.org.Services.EtudiantDocumentService;
 
@@ -18,12 +19,10 @@ public class EtudiantDocumentServiceImpl implements EtudiantDocumentService{
 	
 	@Override
 	public List<String> getAllAnneScolaires() {
-		// TODO Auto-generated method stub
-		return etudiantDocumentRepository.findDistinctAnnee();
+		return etudiantDocumentRepository.findAnneeScolaire();
 	}
-	
-	
 
+	
 
 
 

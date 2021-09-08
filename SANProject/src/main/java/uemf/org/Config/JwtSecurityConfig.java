@@ -35,7 +35,11 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
             "/configuration/security",
             "/swagger-ui.html",
             "/webjars/**",
-            "/apiAuth/**"
+            "/apiAuth/**",
+         /*   "/apiEtudiant/**",
+            "/apiDocument/**",
+            "/apiEtudiantDocument/**",*/
+            
 	};
    
 	@Override

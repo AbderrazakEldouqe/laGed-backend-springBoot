@@ -13,5 +13,6 @@ public class DocumentDTO implements Serializable {
 
 	private Long idDocument;
 	private String intitule;
+	private String byteContent;
 	CategorieDTO categorieDTO;
 }

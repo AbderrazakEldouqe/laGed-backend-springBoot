@@ -42,7 +42,7 @@ public class CategorieController {
     CategorieService categorieService;
     
     @ApiOperation(value = "saveCategorie")
-    @PostMapping("/saveCategorie")
+    @PostMapping("/Categories")
     public CategorieDTO saveCategorie(@RequestBody CategorieDTO categorieDTO)
     {
         return  categorieService.saveCategorie(categorieDTO);
@@ -50,7 +50,7 @@ public class CategorieController {
     }
      
     @ApiOperation(value = "deleteCategorie")
-    @DeleteMapping("/deleteCategorie/{idCategorie}")
+    @DeleteMapping("/Categories/{idCategorie}")
     public void deleteCategorie(@PathVariable("idCategorie") Long idCategorie)
     {
           categorieService.deleteCategorie(idCategorie);
@@ -58,7 +58,7 @@ public class CategorieController {
     
     
     @ApiOperation(value = "getCategorieById")
-    @GetMapping("/getCategorieById/{idCategorie}")
+    @GetMapping("/Categories/{idCategorie}")
     public CategorieDTO getCategorieById(@PathVariable("idCategorie") Long idCategorie)
     {
         return  categorieService.getCategorieById(idCategorie);
@@ -67,7 +67,7 @@ public class CategorieController {
 
     
     @ApiOperation(value = "getAllCategories")
-    @GetMapping("/getAllCategories")
+    @GetMapping("/Categories")
     public List<CategorieDTO> getAllCategories()
     {
         return  categorieService.getAllCategories();

@@ -23,5 +23,8 @@ public interface EtudiantDocumentService {
 			 ,Long matriculeEtudiant, String nomEtudiant);
     
 
+    void uploadListFile(List<EtudiantDocumentDTO> listDocument);
+    
+    List<EtudiantDocumentDTO> getEtudiantDocumentByLastAnneScolaire(); 
 
 }

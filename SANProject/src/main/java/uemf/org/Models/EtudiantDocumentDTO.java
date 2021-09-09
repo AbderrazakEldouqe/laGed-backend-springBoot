@@ -21,6 +21,6 @@ public class EtudiantDocumentDTO implements Serializable {
 	private String nomDoc;
 	private Date dateCreation;
 	private String createur;
-
+	private String fileBase64;
 	
 }

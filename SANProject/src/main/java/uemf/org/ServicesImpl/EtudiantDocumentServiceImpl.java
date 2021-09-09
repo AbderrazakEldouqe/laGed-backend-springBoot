@@ -1,5 +1,6 @@
 package uemf.org.ServicesImpl;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -7,7 +8,9 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -30,6 +33,9 @@ public class EtudiantDocumentServiceImpl implements EtudiantDocumentService{
 	
 	@Autowired
 	EtudiantDocumentTransformer etudiantDocumentTransformer;
+	
+	@Autowired
+    Environment env;
 	
 	@Override
 	public List<String> getAllAnneScolaires() {
@@ -63,11 +69,29 @@ public class EtudiantDocumentServiceImpl implements EtudiantDocumentService{
 			return etudiantDocumentRepository.count();
 	}
 
-	
-	
-	
-	
-	
+	public void uploadListFile(List<EtudiantDocumentDTO> listDocument) {
+		  
+		for (EtudiantDocumentDTO etudiantDocumentDTO : listDocument) {
+		    String path = env.getProperty("chemin.aploadFiles");
+			    byte[] byteValueBase64Decoded = javax.xml.bind.DatatypeConverter
+			            .parseBase64Binary(etudiantDocumentDTO.getFileBase64().split(",")[1]);
+			    
+			    try {
+			        FileUtils.writeByteArrayToFile(new File(path +etudiantDocumentDTO.getNomDoc()), byteValueBase64Decoded);
+			        etudiantDocumentRepository.save(etudiantDocumentTransformer.DTOToEntity(etudiantDocumentDTO));
+			        
+			    } catch (IOException e) {
+			        System.out.println(e.getMessage());
 
-
-}
+			    }
+			}
+		}
+	
+	public List<EtudiantDocumentDTO> getEtudiantDocumentByLastAnneScolaire(){
+		  String lastAnneeScolaire =etudiantDocumentRepository.getLastAnneScolaire();
+		  return etudiantDocumentRepository.getEtudiantDocumentCriteria(lastAnneeScolaire, null, null, null)
+					 .stream().map(etudiantDocumentTransformer::entityToDTO).collect(Collectors.toList());
+	  }
+		   
+	 }
+	

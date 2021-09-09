@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -73,8 +75,6 @@ public class EtudiantDocumentController {
 	   
 	}
 	
-
-	
 	 @ApiOperation(value = "download File", response = ArrayList.class)
 	    @GetMapping("/downloadFile")
 	    public ResponseEntity<Resource> downloadFile(
@@ -82,7 +82,28 @@ public class EtudiantDocumentController {
 	        ResponseEntity<Resource> document = etudiantDocumentService.downloadFile(idDocument);
 	        return document;
   }
-	
+	 
+	  @ApiOperation(value = "upload file", response = String.class)
+	    @PostMapping("/uplaodFiles")
+	    public void uplaodFiles(@RequestBody  List<EtudiantDocumentDTO> listeEtudiantDocumentDTO)
+	            throws Exception {
+	  
+	         try {
+	              
+	                etudiantDocumentService.uploadListFile(listeEtudiantDocumentDTO);
+	 
+	            } catch (Exception e) {
+	                System.out.println(e.getMessage());
+	                throw new Exception();
+	            }
+	    }
+	  @ApiOperation(value = "getEtudiantDocumentByLastAnneScolaire")
+		@GetMapping("/getEtudiantDocumentByLastAnneScolaire")
+		public List<EtudiantDocumentDTO> getEtudiantDocumentByLastAnneScolaire()
+		{
+			return  etudiantDocumentService.getEtudiantDocumentByLastAnneScolaire();
+		   
+		}
 
 
 }

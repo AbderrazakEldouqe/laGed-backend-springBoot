@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
+import uemf.org.Exceptions.BadRequestException;
 import uemf.org.Models.UserDTO;
 import uemf.org.Repositories.UserRepository;
 import uemf.org.Services.UserService;
@@ -21,7 +22,11 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public UserDTO getUserById(Long id) {
-		return userTransformer.entityToDTO(userRepository.getById(id));
+		try {
+			return userTransformer.entityToDTO(userRepository.getById(id));
+		} catch (Exception e) {
+			throw new BadRequestException(e.getMessage());
+		}
 	}
 
 

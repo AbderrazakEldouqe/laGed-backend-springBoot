@@ -20,6 +20,7 @@ public class ConflitException extends ApiBaseException{
 	@Override
 	public int getStatusCodeValue() {
 		
+		System.out.println("******************: "+ HttpStatus.CONFLICT.value());
 		return HttpStatus.CONFLICT.value();
 	}
 

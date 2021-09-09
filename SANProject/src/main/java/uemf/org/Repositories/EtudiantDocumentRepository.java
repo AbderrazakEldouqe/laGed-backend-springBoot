@@ -16,7 +16,7 @@ public interface EtudiantDocumentRepository extends JpaRepository<EtudiantDocume
 	 List<EtudiantDocumentEntity> getEtudiantDocumentCriteria(String anneScolaire, String typeDocument
 			 ,Long matriculeEtudiant, String nomEtudiant);
 	 
-	  @Query(value="select  annee_scolaire from etudiants_documents ORDER BY annee_scolaire DESC LIMIT 1",  nativeQuery = true)
+	  @Query(value="select DISTINCT(annee_scolaire) from etudiants_documents ORDER BY annee_scolaire DESC LIMIT 1",  nativeQuery = true)
 	  String getLastAnneScolaire();
 	
 }

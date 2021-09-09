@@ -53,7 +53,8 @@ public class EtudiantDocumentEntity {
 	@Column(name= "date_creation")
 	private Date dateCreation;
 	
-	@Column(name= "createur")
+	@ManyToOne
+	@JoinColumn(name="nom_createur")
 	private UserEntity createur;
 
 	

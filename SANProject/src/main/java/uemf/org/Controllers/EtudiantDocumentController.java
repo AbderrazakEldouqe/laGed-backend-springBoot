@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.SwaggerDefinition;
@@ -23,6 +27,7 @@ import io.swagger.annotations.Tag;
 import uemf.org.Models.EtudiantDocumentDTO;
 import uemf.org.Requests.FileRequest;
 import uemf.org.Requests.UploadFilesRequest;
+import uemf.org.Security.TokenProvider;
 import uemf.org.Services.EtudiantDocumentService;
 
 @CrossOrigin("*")
@@ -36,6 +41,7 @@ public class EtudiantDocumentController {
 	
 	@Autowired
 	EtudiantDocumentService etudiantDocumentService;
+	
 	
 	@ApiOperation(value = "getAllAnneScolaires")
 	@GetMapping("/getAllAnneScolaires")
@@ -65,6 +71,7 @@ public class EtudiantDocumentController {
 	@GetMapping("/getCountAllDocuments")
 	public Long getCountAllDocuments()
 	{
+		
 		return  etudiantDocumentService.getCountAllDocuments();
 	   
 	}
@@ -79,21 +86,22 @@ public class EtudiantDocumentController {
 	}
 	
 	 @ApiOperation(value = "download File", response = ArrayList.class)
-	    @GetMapping("/downloadFile")
-	    public ResponseEntity<Resource> downloadFile(
+	 @GetMapping("/downloadFile")
+	 public ResponseEntity<Resource> downloadFile(
 	            @RequestParam(name = "idDocument", required = true) Long idDocument) throws Exception {
 	        ResponseEntity<Resource> document = etudiantDocumentService.downloadFile(idDocument);
 	        return document;
-  }
+      }
 	 
 	  @ApiOperation(value = "upload file", response = String.class)
-	    @PostMapping("/uplaodFiles")
-	    public void uplaodFiles(@RequestBody UploadFilesRequest uploadFilesRequest)
+	  @PostMapping("/uplaodFiles")
+	  public void uplaodFiles(@RequestParam("UploadFilesRequest") String uploadFiles)
 	            throws Exception {
 	  
 	         try {
 	              
-	                etudiantDocumentService.uploadListFile(uploadFilesRequest);
+	        	 UploadFilesRequest uploadFilesRequest = new ObjectMapper().readValue(uploadFiles, UploadFilesRequest.class);
+	             etudiantDocumentService.uploadListFile(uploadFilesRequest);
 	 
 	            } catch (Exception e) {
 	                System.out.println(e.getMessage());
@@ -101,8 +109,8 @@ public class EtudiantDocumentController {
 	            }
 	    }
 	  
-	  @ApiOperation(value = "getEtudiantDocumentByLastAnneScolaire")
-	  @GetMapping("/getEtudiantDocumentByLastAnneScolaire")
+    @ApiOperation(value = "getEtudiantDocumentByLastAnneScolaire")
+	@GetMapping("/getEtudiantDocumentByLastAnneScolaire")
 	public List<EtudiantDocumentDTO> getEtudiantDocumentByLastAnneScolaire()
 	{
 			return  etudiantDocumentService.getEtudiantDocumentByLastAnneScolaire();
@@ -113,9 +121,8 @@ public class EtudiantDocumentController {
 	@ApiOperation(value = "updateFile")
     @PutMapping("/updateFile")
 	public EtudiantDocumentDTO updateFile(@RequestBody FileRequest fileRequest)
-	{
-			return  etudiantDocumentService.upDateFile(fileRequest);
-		   
-	}  
+	 {
+		return  etudiantDocumentService.updateFile(fileRequest);
+	 }  
 
 }

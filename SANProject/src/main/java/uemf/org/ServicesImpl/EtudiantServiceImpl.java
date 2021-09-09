@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import uemf.org.Entities.EtudiantEntity;
+import uemf.org.Exceptions.BadRequestException;
 import uemf.org.Models.EtudiantDTO;
 import uemf.org.Models.EtudiantDocumentDTO;
 import uemf.org.Repositories.EtudiantDocumentRepository;
@@ -47,16 +48,23 @@ public class EtudiantServiceImpl implements EtudiantService{
 		
 		List<EtudiantDTO>  etudiants = new ArrayList<>();
 		
-		List<EtudiantDocumentDTO>  EtudiantDocuments = etudiantDocumentRepository.findAllByAnneeScolaire(anneeScolaire)
-				          .stream().map(etudiantDocumentTransformer::entityToDTO)
-				          .collect(Collectors.toList());
-		
-		for (EtudiantDocumentDTO etudiantDocument: EtudiantDocuments)
-		{
-			etudiants.add(etudiantDocument.getEtudiantDTO());
+		try {
+			
+			List<EtudiantDocumentDTO>  EtudiantDocuments = etudiantDocumentRepository.findAllByAnneeScolaire(anneeScolaire)
+			          .stream().map(etudiantDocumentTransformer::entityToDTO)
+			          .collect(Collectors.toList());
+	
+			for (EtudiantDocumentDTO etudiantDocument: EtudiantDocuments)
+			{
+				etudiants.add(etudiantDocument.getEtudiantDTO());
+			}
+			
+			return etudiants;
+			
+		} catch (Exception e) {
+			throw new BadRequestException(e.getMessage());
 		}
 		
-		return etudiants;
 		
 	 }
 

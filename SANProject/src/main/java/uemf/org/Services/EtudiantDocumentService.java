@@ -29,6 +29,6 @@ public interface EtudiantDocumentService {
     
     List<EtudiantDocumentDTO> getEtudiantDocumentByLastAnneScolaire(); 
     
-    EtudiantDocumentDTO upDateFile(FileRequest fileRequest);
+    EtudiantDocumentDTO updateFile(FileRequest fileRequest);
 
 }

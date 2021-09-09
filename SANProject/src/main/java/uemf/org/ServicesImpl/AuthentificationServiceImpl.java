@@ -1,7 +1,6 @@
 package uemf.org.ServicesImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -14,9 +13,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import lombok.extern.slf4j.Slf4j;
+import uemf.org.Exceptions.BadRequestException;
+import uemf.org.Exceptions.NotFoundException;
 import uemf.org.Models.CustomUserDetailsDTO;
 import uemf.org.Models.UserDTO;
 import uemf.org.Repositories.UserRepository;
@@ -73,10 +73,10 @@ public class AuthentificationServiceImpl implements AuthentificationService , Us
 		} catch (BadCredentialsException e) {
 			
 			log.warn("Erreur auth : {}", e.getMessage());
-			throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "login.password.incorect");
+			throw new NotFoundException("login.password.incorect");
 		}
 		 catch (DisabledException e) {
-				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "USER_DISABLED");
+				throw new BadRequestException("USER_DISABLED");
 			}
 	}
 
@@ -89,9 +89,8 @@ public class AuthentificationServiceImpl implements AuthentificationService , Us
 		UserDTO userDTO =  userTransformer.entityToDTO(userRepository.findByLogin(login));
 		
 		if (userDTO == null) {
-			throw new UsernameNotFoundException("UserName " + login + " not found");
+			throw new NotFoundException("UserName " + login + " not found");
 		}
-
 		return new CustomUserDetailsDTO(userDTO);
 
 	}

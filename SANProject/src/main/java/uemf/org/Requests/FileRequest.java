@@ -9,6 +9,8 @@ import uemf.org.Models.CategorieDTO;
 @Getter @Setter 
 @AllArgsConstructor @NoArgsConstructor
 public class FileRequest {
+	
+	private Long idFile;
 	private String filebase64;
 	private String fileName;
 	private String  libelleComplementaire;

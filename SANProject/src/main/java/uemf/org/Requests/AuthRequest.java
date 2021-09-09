@@ -10,7 +10,7 @@ import lombok.Setter;
 public class AuthRequest {
 
 	private String login;
-	private String passWord;;
+	private String password;;
 
 	
 }

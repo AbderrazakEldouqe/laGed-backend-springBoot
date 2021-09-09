@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +21,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.SwaggerDefinition;
 import io.swagger.annotations.Tag;
 import uemf.org.Models.EtudiantDocumentDTO;
+import uemf.org.Requests.FileRequest;
 import uemf.org.Requests.UploadFilesRequest;
 import uemf.org.Services.EtudiantDocumentService;
 
@@ -98,13 +100,22 @@ public class EtudiantDocumentController {
 	                throw new Exception();
 	            }
 	    }
+	  
 	  @ApiOperation(value = "getEtudiantDocumentByLastAnneScolaire")
-		@GetMapping("/getEtudiantDocumentByLastAnneScolaire")
-		public List<EtudiantDocumentDTO> getEtudiantDocumentByLastAnneScolaire()
-		{
+	  @GetMapping("/getEtudiantDocumentByLastAnneScolaire")
+	public List<EtudiantDocumentDTO> getEtudiantDocumentByLastAnneScolaire()
+	{
 			return  etudiantDocumentService.getEtudiantDocumentByLastAnneScolaire();
 		   
-		}
+	}
 
+	  
+	@ApiOperation(value = "updateFile")
+    @PutMapping("/updateFile")
+	public EtudiantDocumentDTO updateFile(@RequestBody FileRequest fileRequest)
+	{
+			return  etudiantDocumentService.upDateFile(fileRequest);
+		   
+	}  
 
 }

@@ -34,7 +34,7 @@ public class AuthentificationController {
 	@PostMapping("/authUser")
 	public ResponseEntity<CustomUserDetailsDTO> authUser(@RequestBody AuthRequest authRequest )
 	{	
-		return  new ResponseEntity<CustomUserDetailsDTO>(authentificationService.authUser(authRequest.getLogin(), authRequest.getPassWord()), HttpStatus.OK) ;
+		return  new ResponseEntity<CustomUserDetailsDTO>(authentificationService.authUser(authRequest.getLogin(), authRequest.getPassword()), HttpStatus.OK) ;
 	   
 	}
 	

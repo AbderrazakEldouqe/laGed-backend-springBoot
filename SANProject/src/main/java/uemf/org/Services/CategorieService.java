@@ -14,4 +14,5 @@ public interface CategorieService {
    
     List<CategorieDTO>  getAllCategories();
 
+    CategorieDTO updateCategorie(CategorieDTO categorieDTO);
 }

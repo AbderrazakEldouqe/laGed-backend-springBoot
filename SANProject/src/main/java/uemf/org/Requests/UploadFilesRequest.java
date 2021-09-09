@@ -11,8 +11,9 @@ import uemf.org.Models.EtudiantDTO;
 @Getter @Setter 
 @AllArgsConstructor @NoArgsConstructor
 public class UploadFilesRequest {
+	
 	private EtudiantDTO etudiantDTO;
 	private String anneeScolaire;
 	private List<FileRequest> listFileRequest;
-	
+
 }

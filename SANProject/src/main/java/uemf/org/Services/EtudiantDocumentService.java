@@ -7,6 +7,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 
 import uemf.org.Models.EtudiantDocumentDTO;
+import uemf.org.Requests.FileRequest;
 import uemf.org.Requests.UploadFilesRequest;
 
 public interface EtudiantDocumentService {
@@ -27,5 +28,7 @@ public interface EtudiantDocumentService {
     void uploadListFile(UploadFilesRequest uploadFilesRequest);
     
     List<EtudiantDocumentDTO> getEtudiantDocumentByLastAnneScolaire(); 
+    
+    EtudiantDocumentDTO upDateFile(FileRequest fileRequest);
 
 }

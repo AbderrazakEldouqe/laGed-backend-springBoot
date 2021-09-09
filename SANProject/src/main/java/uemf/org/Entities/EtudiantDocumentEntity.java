@@ -54,7 +54,7 @@ public class EtudiantDocumentEntity {
 	private Date dateCreation;
 	
 	@Column(name= "createur")
-	private String createur;
+	private UserEntity createur;
 
 	
 

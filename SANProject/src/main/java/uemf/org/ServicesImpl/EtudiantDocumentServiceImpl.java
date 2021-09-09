@@ -98,6 +98,8 @@ public class EtudiantDocumentServiceImpl implements EtudiantDocumentService{
 			      	
 			      	etudiantDocumentDTO.setNomDoc(fileRequest.getFileName());
 			      	
+			      	etudiantDocumentDTO.setFileBase64(fileRequest.getFilebase64());
+			      	
 			      	etudiantDocumentDTO.setDateCreation(new Date());
 			      	
 			        etudiantDocumentRepository.save(etudiantDocumentTransformer.DTOToEntity(etudiantDocumentDTO));
@@ -114,6 +116,25 @@ public class EtudiantDocumentServiceImpl implements EtudiantDocumentService{
 		  return etudiantDocumentRepository.getEtudiantDocumentCriteria(lastAnneeScolaire, null, null, null)
 					 .stream().map(etudiantDocumentTransformer::entityToDTO).collect(Collectors.toList());
 	  }
+
+	@Override
+	public EtudiantDocumentDTO upDateFile(FileRequest fileRequest) {
+  		
+		EtudiantDocumentDTO etudiantDocumentDTO = getDocumentById(fileRequest.getIdFile());
+
+	      	etudiantDocumentDTO.setCategorieDTO(fileRequest.getCategorieDTO());
+	      	
+	      	etudiantDocumentDTO.setLibelleCompl(fileRequest.getLibelleComplementaire());
+	      	
+	      	etudiantDocumentDTO.setNomDoc(fileRequest.getFileName());
+	      	
+	      	etudiantDocumentDTO.setFileBase64(fileRequest.getFilebase64());
+	      	
+	        etudiantDocumentRepository.save(etudiantDocumentTransformer.DTOToEntity(etudiantDocumentDTO));
+
+		
+		return etudiantDocumentDTO;
+	}
 		   
 	 }
 	

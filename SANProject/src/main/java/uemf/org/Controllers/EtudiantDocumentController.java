@@ -20,6 +20,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.SwaggerDefinition;
 import io.swagger.annotations.Tag;
 import uemf.org.Models.EtudiantDocumentDTO;
+import uemf.org.Requests.UploadFilesRequest;
 import uemf.org.Services.EtudiantDocumentService;
 
 @CrossOrigin("*")
@@ -85,12 +86,12 @@ public class EtudiantDocumentController {
 	 
 	  @ApiOperation(value = "upload file", response = String.class)
 	    @PostMapping("/uplaodFiles")
-	    public void uplaodFiles(@RequestBody  List<EtudiantDocumentDTO> listeEtudiantDocumentDTO)
+	    public void uplaodFiles(@RequestBody UploadFilesRequest uploadFilesRequest)
 	            throws Exception {
 	  
 	         try {
 	              
-	                etudiantDocumentService.uploadListFile(listeEtudiantDocumentDTO);
+	                etudiantDocumentService.uploadListFile(uploadFilesRequest);
 	 
 	            } catch (Exception e) {
 	                System.out.println(e.getMessage());

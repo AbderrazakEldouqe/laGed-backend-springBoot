@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,6 +22,8 @@ import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
 import uemf.org.Models.EtudiantDocumentDTO;
 import uemf.org.Repositories.EtudiantDocumentRepository;
+import uemf.org.Requests.FileRequest;
+import uemf.org.Requests.UploadFilesRequest;
 import uemf.org.Services.EtudiantDocumentService;
 import uemf.org.Transformers.EtudiantDocumentTransformer;
 
@@ -69,15 +72,34 @@ public class EtudiantDocumentServiceImpl implements EtudiantDocumentService{
 			return etudiantDocumentRepository.count();
 	}
 
-	public void uploadListFile(List<EtudiantDocumentDTO> listDocument) {
+	public void uploadListFile(UploadFilesRequest uploadFilesRequest) {
 		  
-		for (EtudiantDocumentDTO etudiantDocumentDTO : listDocument) {
-		    String path = env.getProperty("chemin.aploadFiles");
+	  String path = env.getProperty("url.server.UploadFiles");
+	  
+	  
+		for (FileRequest fileRequest : uploadFilesRequest.getListFileRequest()) {
+			
+			EtudiantDocumentDTO etudiantDocumentDTO = new EtudiantDocumentDTO();
+			
 			    byte[] byteValueBase64Decoded = javax.xml.bind.DatatypeConverter
-			            .parseBase64Binary(etudiantDocumentDTO.getFileBase64().split(",")[1]);
-			    
+			            .parseBase64Binary(fileRequest.getFilebase64().split(",")[1]);
 			    try {
-			        FileUtils.writeByteArrayToFile(new File(path +etudiantDocumentDTO.getNomDoc()), byteValueBase64Decoded);
+			        FileUtils.writeByteArrayToFile(new File(path +fileRequest.getFileName()), byteValueBase64Decoded);
+			        
+			        etudiantDocumentDTO.setEtudiantDTO(uploadFilesRequest.getEtudiantDTO());
+			        
+			        etudiantDocumentDTO.setAnneeScolaire(uploadFilesRequest.getAnneeScolaire());
+			     
+			      	etudiantDocumentDTO.setCheminDoc(path + fileRequest.getFileName());
+			      	
+			      	etudiantDocumentDTO.setCategorieDTO(fileRequest.getCategorieDTO());
+			      	
+			      	etudiantDocumentDTO.setLibelleCompl(fileRequest.getLibelleComplementaire());
+			      	
+			      	etudiantDocumentDTO.setNomDoc(fileRequest.getFileName());
+			      	
+			      	etudiantDocumentDTO.setDateCreation(new Date());
+			      	
 			        etudiantDocumentRepository.save(etudiantDocumentTransformer.DTOToEntity(etudiantDocumentDTO));
 			        
 			    } catch (IOException e) {

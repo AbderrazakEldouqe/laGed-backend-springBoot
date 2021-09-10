@@ -68,7 +68,7 @@ public class CategorieController {
 
     
     @ApiOperation(value = "Categories")
-    @PutMapping("/Categories")
+    @PutMapping("/Categories/{idCategorie}")
     public CategorieDTO updateCategorie(@RequestBody CategorieDTO categorie)
     {
         return  categorieService.updateCategorie(categorie);

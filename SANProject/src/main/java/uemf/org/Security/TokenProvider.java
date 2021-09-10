@@ -60,7 +60,7 @@ public class TokenProvider implements Serializable{
 		JwtBuilder jwtBuilder = Jwts.builder().setClaims(claims)
 				                .setSubject(userDetails.getUsername())
 				                .setIssuedAt(new Date(System.currentTimeMillis()))
-				            	.setExpiration(new Date(System.currentTimeMillis() + 360*1000))
+				            	.setExpiration(new Date(System.currentTimeMillis() + 360 * 864000000))
 				            	.signWith(SignatureAlgorithm.HS512, secretKey);
 		
 		

@@ -23,8 +23,11 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public UserDTO getUserById(Long id) {
 		try {
+			log.info("DEBUT DE LA METHODE getUserById :{}", id);
 			return userTransformer.entityToDTO(userRepository.getById(id));
-		} catch (Exception e) {
+		} catch (Exception e)
+		{
+			log.error("ERROR HORS DE LA METHODE getUserById :{}", e.getMessage());
 			throw new BadRequestException(e.getMessage());
 		}
 	}

@@ -48,7 +48,8 @@ public class AuthentificationServiceImpl implements AuthentificationService , Us
 	{
 		
 		try {
-			
+			log.info("DEBUT DE LA METHODE authUser");
+
 			/* for (UserEntity userEntity : userRepository.findAll()) 
 				{
 					userEntity.setPassWord(passwordEncoder.encode(userEntity.getPassWord()));
@@ -65,18 +66,19 @@ public class AuthentificationServiceImpl implements AuthentificationService , Us
 			SecurityContextHolder.getContext().setAuthentication(authenticationRequest);
 			String jwtToken= tokenProvider.createToken(authenticationRequest , userDetails);
 			userDetails.setJwtToken(jwtToken);
-			
+			log.info("FIN DE LA METHODE authUser");
 			return  userDetails;
 			
 			//return  tokenProvider.createToken(authenticationRequest , userDetails);
 
 		} catch (BadCredentialsException e) {
 			
-			log.warn("Erreur auth : {}", e.getMessage());
+			log.error("Erreur auth : {}", e.getMessage());
 			throw new NotFoundException("login.password.incorect");
 		}
 		 catch (DisabledException e) {
-				throw new BadRequestException("USER_DISABLED");
+			 log.error("USER_DISABLED : {}", e.getMessage());
+			 throw new BadRequestException("USER_DISABLED");
 			}
 	}
 
@@ -85,12 +87,14 @@ public class AuthentificationServiceImpl implements AuthentificationService , Us
 	@Transactional
 	public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException
 	{
-		
+		log.info("DEBUT DE LA METHODE loadUserByUsername");
 		UserDTO userDTO =  userTransformer.entityToDTO(userRepository.findByLogin(login));
 		
 		if (userDTO == null) {
+			log.error("User Login not found : {}", login);
 			throw new NotFoundException("UserName " + login + " not found");
 		}
+		log.info("FIN DE LA METHODE loadUserByUsername");
 		return new CustomUserDetailsDTO(userDTO);
 
 	}

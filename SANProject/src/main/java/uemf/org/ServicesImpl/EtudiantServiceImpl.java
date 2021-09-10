@@ -47,10 +47,12 @@ public class EtudiantServiceImpl implements EtudiantService{
 	public List<EtudiantDTO> getAllEtudiantByAnneScolaires(String anneeScolaire) {
 				
 		try {    
+			log.info("DEBUT DE LA METHODE getAllEtudiantByAnneScolaires :{}", anneeScolaire);
 			return etudiantRepository.findAllEtudiantByAnneeScolaire(anneeScolaire)
 					.stream().map(etudiantTransformer::entityToDTO).collect(Collectors.toList());
 			
 		} catch (Exception e) {
+			log.error("ERROR HORS DE LA METHODE getAllEtudiantByAnneScolaires :{}", e.getMessage());
 			throw new BadRequestException(e.getMessage());
 		}
 		

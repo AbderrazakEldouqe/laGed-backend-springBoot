@@ -45,21 +45,10 @@ public class EtudiantServiceImpl implements EtudiantService{
 
 	@Override
 	public List<EtudiantDTO> getAllEtudiantByAnneScolaires(String anneeScolaire) {
-		
-		List<EtudiantDTO>  etudiants = new ArrayList<>();
-		
-		try {
-			
-			List<EtudiantDocumentDTO>  EtudiantDocuments = etudiantDocumentRepository.findAllByAnneeScolaire(anneeScolaire)
-			          .stream().map(etudiantDocumentTransformer::entityToDTO)
-			          .collect(Collectors.toList());
-	
-			for (EtudiantDocumentDTO etudiantDocument: EtudiantDocuments)
-			{
-				etudiants.add(etudiantDocument.getEtudiantDTO());
-			}
-			
-			return etudiants;
+				
+		try {    
+			return etudiantRepository.findAllEtudiantByAnneeScolaire(anneeScolaire)
+					.stream().map(etudiantTransformer::entityToDTO).collect(Collectors.toList());
 			
 		} catch (Exception e) {
 			throw new BadRequestException(e.getMessage());

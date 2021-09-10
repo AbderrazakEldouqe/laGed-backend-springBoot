@@ -11,7 +11,7 @@ public interface EtudiantDocumentRepository extends JpaRepository<EtudiantDocume
 	  @Query(value="SELECT DISTINCT(annee_scolaire) from etudiants_documents",  nativeQuery = true)
 	  List<String> findAnneeScolaire();
 	  
-	 List<EtudiantDocumentEntity> findAllByAnneeScolaire(String anneeScolaire);
+	// List<EtudiantDocumentEntity> findDistinctAllByAnneeScolaire(String anneeScolaire);
 	  
 	 List<EtudiantDocumentEntity> getEtudiantDocumentCriteria(String anneScolaire, String typeDocument
 			 ,Long matriculeEtudiant, String nomEtudiant);

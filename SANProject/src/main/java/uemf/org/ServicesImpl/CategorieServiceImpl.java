@@ -17,6 +17,7 @@ import uemf.org.Models.CategorieDTO;
 import uemf.org.Repositories.CategorieRepository;
 import uemf.org.Services.CategorieService;
 import uemf.org.Transformers.CategorieTransformer;
+import uemf.org.Transformers.SousCategorieTransformer;
 
  
 
@@ -29,6 +30,8 @@ public class CategorieServiceImpl implements CategorieService{
     
     @Autowired
     CategorieTransformer categorieTransformer;
+    
+	
     
     @Override
     public CategorieDTO saveCategorie(CategorieDTO categorieDTO) {
@@ -119,6 +122,11 @@ public class CategorieServiceImpl implements CategorieService{
                 CategorieDTO categorieTrouve= getCategorieById(categorieDTO.getIdCategorie());
                 categorieTrouve.setCatDoc(categorieDTO.getCatDoc());
                 categorieTrouve.setLibelle(categorieDTO.getLibelle());
+                if(categorieDTO.getSousCategorieDTO() != null)
+                {
+                	categorieTrouve.setSousCategorieDTO(categorieDTO.getSousCategorieDTO());
+                }
+                
                 saveCategorie(categorieTrouve);
                 return categorieTrouve;
                 

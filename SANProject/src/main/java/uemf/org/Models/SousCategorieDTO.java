@@ -9,10 +9,9 @@ import lombok.Setter;
 
 @Getter @Setter 
 @AllArgsConstructor @NoArgsConstructor
-public class CategorieDTO implements Serializable {
+public class SousCategorieDTO implements Serializable {
 
-	private Long idCategorie;
+	private Long idSousCategorie;
 	private String libelle;
-	private String catDoc;
-	private SousCategorieDTO sousCategorieDTO;
+	private String description;
 }

@@ -11,25 +11,24 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-@Table(name="etudiants")
+@Table(name="sous_categories")
 @Entity
 @Getter @Setter 
 @AllArgsConstructor @NoArgsConstructor
-public class EtudiantEntity {
+public class SousCategorieEntity {
+
 
 	@Id
-	@Column(name= "matricule_etud")
-	private Long idEtudiant;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name= "id_sous_categorie")
+	private Long idSousCategorie;
 	
-	@Column(name= "nom")
-	private String nom;
+	@Column(name= "libelle")
+	private String libelle;
 	
-	@Column(name= "prenom")
-	private String prenom;
+	@Column(name= "description")
+	private String description;
+
 	
-
-
-
 
 }

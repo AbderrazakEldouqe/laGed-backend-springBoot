@@ -10,14 +10,12 @@ import uemf.org.Models.CategorieDTO;
 @Component
 public class CategorieTransformer {
 	
-	@Autowired
-	SousCategorieTransformer sousCategorieTransformer;
+	
 	
 	public CategorieDTO entityToDTO(CategorieEntity categorieEntity) {
 		if(categorieEntity==null) return null;
 		CategorieDTO categorieDTO = new CategorieDTO();
 		BeanUtils.copyProperties(categorieEntity,categorieDTO);
-		categorieDTO.setSousCategorieDTO(sousCategorieTransformer.entityToDTO(categorieEntity.getSousCategorieEntity()));
 		return categorieDTO;
 	}
 	
@@ -26,7 +24,6 @@ public class CategorieTransformer {
 		if(categorieDTO==null) return null;
 		CategorieEntity categorieEntity = new CategorieEntity();
 		BeanUtils.copyProperties(categorieDTO,categorieEntity);
-		categorieEntity.setSousCategorieEntity(sousCategorieTransformer.DTOToEntity(categorieDTO.getSousCategorieDTO()));
 		return categorieEntity;
 		}
 	

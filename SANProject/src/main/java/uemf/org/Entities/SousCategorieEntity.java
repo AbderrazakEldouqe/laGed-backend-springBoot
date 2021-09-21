@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -28,6 +30,11 @@ public class SousCategorieEntity {
 	
 	@Column(name= "description")
 	private String description;
+	
+	
+	@ManyToOne
+	@JoinColumn(name="id__categorie")
+	private CategorieEntity categorieEntity;
 
 	
 

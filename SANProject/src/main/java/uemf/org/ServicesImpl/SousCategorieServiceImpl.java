@@ -112,6 +112,9 @@ public class SousCategorieServiceImpl  implements SousCategorieService{
 	                SousCategorieDTO sousCategorieTrouve= getSousCategorieById(sousCategorieDTO.getIdSousCategorie());
 	                sousCategorieTrouve.setLibelle(sousCategorieDTO.getLibelle());
 	                sousCategorieTrouve.setDescription(sousCategorieDTO.getDescription());
+	                if(sousCategorieDTO.getCategorieDTO() != null)
+	                  sousCategorieTrouve.setCategorieDTO(sousCategorieDTO.getCategorieDTO());
+	                	
 	                saveSousCategorie(sousCategorieTrouve);
 	                return sousCategorieTrouve;
 	                

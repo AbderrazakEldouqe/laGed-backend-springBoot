@@ -122,11 +122,6 @@ public class CategorieServiceImpl implements CategorieService{
                 CategorieDTO categorieTrouve= getCategorieById(categorieDTO.getIdCategorie());
                 categorieTrouve.setCatDoc(categorieDTO.getCatDoc());
                 categorieTrouve.setLibelle(categorieDTO.getLibelle());
-                if(categorieDTO.getSousCategorieDTO() != null)
-                {
-                	categorieTrouve.setSousCategorieDTO(categorieDTO.getSousCategorieDTO());
-                }
-                
                 saveCategorie(categorieTrouve);
                 return categorieTrouve;
                 

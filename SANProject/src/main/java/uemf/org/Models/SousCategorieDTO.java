@@ -14,4 +14,6 @@ public class SousCategorieDTO implements Serializable {
 	private Long idSousCategorie;
 	private String libelle;
 	private String description;
+	private CategorieDTO categorieDTO;
+
 }

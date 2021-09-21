@@ -31,8 +31,5 @@ public class CategorieEntity {
 	@Column(name= "cat_doc")
 	private String catDoc;
 	
-	@ManyToOne
-	@JoinColumn(name="id_sous_categorie")
-	private SousCategorieEntity sousCategorieEntity;
 	
 }

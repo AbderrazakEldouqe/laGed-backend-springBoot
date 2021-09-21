@@ -14,5 +14,4 @@ public class CategorieDTO implements Serializable {
 	private Long idCategorie;
 	private String libelle;
 	private String catDoc;
-	private SousCategorieDTO sousCategorieDTO;
 }

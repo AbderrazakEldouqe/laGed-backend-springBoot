@@ -71,7 +71,7 @@ public class EtudiantDocumentServiceImpl implements EtudiantDocumentService{
 
 		 
 	   try {
-		   log.info("DEBUT DE LA METHODE getAllAnneScolaires ");
+		   log.info("DEBUT DE LA METHODE getEtudiantDocumentCriteria ");
 		   
 		   for (String critere : allCriteres)
 		   {
@@ -82,7 +82,7 @@ public class EtudiantDocumentServiceImpl implements EtudiantDocumentService{
 					 .stream().map(etudiantDocumentTransformer::entityToDTO).collect(Collectors.toList());
 			
 		} catch (Exception e) {
-			log.error("ERROR HORS DE LA METHODE getAllAnneScolaires :{}", e.getMessage());
+			log.error("ERROR HORS DE LA METHODE getEtudiantDocumentCriteria :{}", e.getMessage());
 			throw new BadRequestException(e.getMessage());
 		}
 		 

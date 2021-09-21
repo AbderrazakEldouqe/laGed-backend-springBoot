@@ -14,7 +14,7 @@ public class EtudiantDocumentDTO implements Serializable {
 
 	private Long idDocument;
 	private EtudiantDTO etudiantDTO;
-	private CategorieDTO categorieDTO;
+	private SousCategorieDTO sousCategorieDTO;
 	private String libelleCompl;
 	private String anneeScolaire;
 	private String cheminDoc;
@@ -23,6 +23,11 @@ public class EtudiantDocumentDTO implements Serializable {
 	private UserDTO createur;
 	private String fileBase64;
 	private boolean isAnnule;
+	
+	
+	private Date dateAnnulation;
+    private String motif;
+    private String annulePar;
 
 	
 }

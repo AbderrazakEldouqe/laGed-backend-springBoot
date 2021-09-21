@@ -34,8 +34,8 @@ public class EtudiantDocumentEntity {
 	
 	
 	@ManyToOne
-	@JoinColumn(name="id_categorie")
-	private CategorieEntity categorieEntity;
+	@JoinColumn(name="id_sous_categorie")
+	private SousCategorieEntity sousCategorieEntity;
 	
 	
 	@Column(name= "annee_scolaire")

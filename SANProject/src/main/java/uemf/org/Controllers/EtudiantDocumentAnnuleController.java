@@ -57,7 +57,7 @@ public class EtudiantDocumentAnnuleController {
 	
 	@ApiOperation(value = "annuleeEtudiantDocument")
     @PostMapping("/annuleeEtudiantDocument")
-	public EtudiantDocumentAnnuleDTO updateFile(@RequestBody EtudiantDocumentAnnuleDTO etudiantDocumentAnnule)
+	public EtudiantDocumentAnnuleDTO annuleeEtudiantDocument(@RequestBody EtudiantDocumentAnnuleDTO etudiantDocumentAnnule)
 	 {
 		return  etudiantDocumentAnnuleService.saveDocumentAnnule(etudiantDocumentAnnule.getIdEtudiantDocumentAnnule(), etudiantDocumentAnnule.getMotif());
 	 }  

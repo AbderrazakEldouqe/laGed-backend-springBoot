@@ -16,5 +16,5 @@ public class EtudiantDocumentAnnuleDTO implements Serializable {
 	private EtudiantDocumentDTO etudiantDocumentDTO;
 	private Date dateAnnulation;
 	private String motif;
-	private String annulePar;
+	private UserDTO annulePar;
 }

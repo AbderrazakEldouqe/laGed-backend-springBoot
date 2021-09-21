@@ -29,12 +29,14 @@ import uemf.org.Exceptions.ConflitException;
 import uemf.org.Exceptions.NotFoundException;
 import uemf.org.Models.CustomUserDetailsDTO;
 import uemf.org.Models.EtudiantDocumentDTO;
+import uemf.org.Repositories.EtudiantDocumentAnnuleRepository;
 import uemf.org.Repositories.EtudiantDocumentRepository;
 import uemf.org.Requests.FileRequest;
 import uemf.org.Requests.UploadFilesRequest;
 import uemf.org.Services.EtudiantDocumentAnnuleService;
 import uemf.org.Services.EtudiantDocumentService;
 import uemf.org.Services.UserService;
+import uemf.org.Transformers.EtudiantDocumentAnnuleTransformer;
 import uemf.org.Transformers.EtudiantDocumentTransformer;
 
 
@@ -52,6 +54,13 @@ public class EtudiantDocumentServiceImpl implements EtudiantDocumentService{
 	
 	@Autowired
 	EtudiantDocumentTransformer etudiantDocumentTransformer;
+	
+	
+	@Autowired
+	EtudiantDocumentAnnuleRepository etudiantDocumentAnnuleRepository;
+	   
+	@Autowired
+	EtudiantDocumentAnnuleTransformer etudiantDocumentAnnuleTransformer;
 	
 	
 	@Autowired
@@ -80,21 +89,17 @@ public class EtudiantDocumentServiceImpl implements EtudiantDocumentService{
 		   {
 			   log.info("Search avec :{} ", critere);
 		   }
-		   
-		   if(isDocumentAnnule)
-		   {
-			   return etudiantDocumentAnnuleService.getEtudiantDocumentAnnulesCriteria(anneScolaire, typeDocument, matriculeEtudiant, nomEtudiant);
 		  
-		   }
-		  else 
-		   {
-			return etudiantDocumentRepository.getEtudiantDocumentCriteria(anneScolaire, typeDocument, matriculeEtudiant, nomEtudiant)
-					 .stream().map(etudiantDocumentTransformer::entityToDTO).collect(Collectors.toList());
-			
-	        }
-			
-			
-			
+		   if(isDocumentAnnule)
+           {
+               //return etudiantDocumentAnnuleService.getEtudiantDocumentAnnulesCriteria(anneScolaire, typeDocument, matriculeEtudiant, nomEtudiant);
+               return etudiantDocumentAnnuleRepository.getEtudiantDocumentAnnulesCriteria(anneScolaire, typeDocument, matriculeEtudiant, nomEtudiant)
+                       .stream().map(etudiantDocumentAnnuleTransformer::entityToDTOEtudiantDocument).collect(Collectors.toList());
+           }
+          else
+           
+            return etudiantDocumentRepository.getEtudiantDocumentCriteria(anneScolaire, typeDocument, matriculeEtudiant, nomEtudiant)
+                     .stream().map(etudiantDocumentTransformer::entityToDTO).collect(Collectors.toList());
 			
 		} catch (Exception e) {
 			log.error("ERROR HORS DE LA METHODE getEtudiantDocumentCriteria :{}", e.getMessage());
@@ -164,7 +169,7 @@ public class EtudiantDocumentServiceImpl implements EtudiantDocumentService{
 			        etudiantDocumentDTO.setEtudiantDTO(uploadFilesRequest.getEtudiantDTO());
 			        etudiantDocumentDTO.setAnneeScolaire(uploadFilesRequest.getAnneeScolaire());
 			      	etudiantDocumentDTO.setCheminDoc(path + fileRequest.getFileName());
-			      	etudiantDocumentDTO.setCategorieDTO(fileRequest.getCategorieDTO());
+			      	etudiantDocumentDTO.setSousCategorieDTO(fileRequest.getSousCategorieDTO());
 			      	etudiantDocumentDTO.setLibelleCompl(fileRequest.getLibelleComplementaire());
 			      	etudiantDocumentDTO.setNomDoc(fileRequest.getFileName());
 			      	etudiantDocumentDTO.setFileBase64(fileRequest.getFilebase64());
@@ -206,7 +211,7 @@ public class EtudiantDocumentServiceImpl implements EtudiantDocumentService{
 			try {
 				log.info("DEBUT DE LA METHODE updateFile");
 				EtudiantDocumentDTO etudiantDocumentDTO = getDocumentById(fileRequest.getIdFile());
-		      	etudiantDocumentDTO.setCategorieDTO(fileRequest.getCategorieDTO());
+		      	etudiantDocumentDTO.setSousCategorieDTO(fileRequest.getSousCategorieDTO());
 		      	etudiantDocumentDTO.setLibelleCompl(fileRequest.getLibelleComplementaire());
 		      	etudiantDocumentDTO.setNomDoc(fileRequest.getFileName());
 		      	etudiantDocumentDTO.setFileBase64(fileRequest.getFilebase64());

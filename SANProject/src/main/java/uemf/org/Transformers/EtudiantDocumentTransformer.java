@@ -14,7 +14,7 @@ public class EtudiantDocumentTransformer {
 	EtudiantTransformer etudiantTransformer;
 	
 	@Autowired
-	CategorieTransformer categorieTransformer;
+	SousCategorieTransformer sousCategorieTransformer;
 	
 	@Autowired
 	UserTransformer userTransformer;
@@ -25,7 +25,7 @@ public class EtudiantDocumentTransformer {
 		EtudiantDocumentDTO etudiantDocumentDTO = new EtudiantDocumentDTO();
 		BeanUtils.copyProperties(etudiantDocumentEntity,etudiantDocumentDTO);
 		etudiantDocumentDTO.setEtudiantDTO(etudiantTransformer.entityToDTO(etudiantDocumentEntity.getEtudiantEntity()));
-		etudiantDocumentDTO.setCategorieDTO(categorieTransformer.entityToDTO(etudiantDocumentEntity.getCategorieEntity()));
+		etudiantDocumentDTO.setSousCategorieDTO(sousCategorieTransformer.entityToDTO(etudiantDocumentEntity.getSousCategorieEntity()));
 		etudiantDocumentDTO.setCreateur(userTransformer.entityToDTO(etudiantDocumentEntity.getCreateur()));
 		return etudiantDocumentDTO;
 	}
@@ -36,7 +36,7 @@ public class EtudiantDocumentTransformer {
 		EtudiantDocumentEntity etudiantDocumentEntity = new EtudiantDocumentEntity();
 		BeanUtils.copyProperties(etudiantDocumentDTO,etudiantDocumentEntity);
 		etudiantDocumentEntity.setEtudiantEntity(etudiantTransformer.DTOToEntity(etudiantDocumentDTO.getEtudiantDTO()));
-		etudiantDocumentEntity.setCategorieEntity(categorieTransformer.DTOToEntity(etudiantDocumentDTO.getCategorieDTO()));
+		etudiantDocumentEntity.setSousCategorieEntity(sousCategorieTransformer.DTOToEntity(etudiantDocumentDTO.getSousCategorieDTO()));
 		etudiantDocumentEntity.setCreateur(userTransformer.DTOToEntity(etudiantDocumentDTO.getCreateur()));
 		return etudiantDocumentEntity;
 		}

@@ -37,9 +37,10 @@ public class EtudiantDocumentAnnuleEntity {
 	@Column(name= "motif")
 	private String motif;
 	
-	@ManyToOne
-	@JoinColumn(name= "annule_par")
-	private UserEntity annulePar;
+//	@ManyToOne
+//	@JoinColumn(name= "annule_par")
+	@Column(name= "annule_par")
+	private String annulePar;
 	
 	
 

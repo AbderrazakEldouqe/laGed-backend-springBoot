@@ -18,6 +18,7 @@ import io.swagger.annotations.Tag;
 import uemf.org.Models.EtudiantDocumentAnnuleDTO;
 import uemf.org.Models.EtudiantDocumentDTO;
 import uemf.org.Requests.FileRequest;
+import uemf.org.Requests.SaveDocumentAnnuleRequest;
 import uemf.org.Services.EtudiantDocumentAnnuleService;
 
 @CrossOrigin("*")
@@ -57,9 +58,9 @@ public class EtudiantDocumentAnnuleController {
 	
 	@ApiOperation(value = "annuleeEtudiantDocument")
     @PostMapping("/annuleeEtudiantDocument")
-	public EtudiantDocumentAnnuleDTO annuleeEtudiantDocument(@RequestBody EtudiantDocumentAnnuleDTO etudiantDocumentAnnule)
+	public EtudiantDocumentAnnuleDTO annuleeEtudiantDocument(@RequestBody SaveDocumentAnnuleRequest saveDocumentAnnuleRequest)
 	 {
-		return  etudiantDocumentAnnuleService.saveDocumentAnnule(etudiantDocumentAnnule.getIdEtudiantDocumentAnnule(), etudiantDocumentAnnule.getMotif());
+		return  etudiantDocumentAnnuleService.saveDocumentAnnule(saveDocumentAnnuleRequest.getIdFile(), saveDocumentAnnuleRequest.getMotif());
 	 }  
 
 	

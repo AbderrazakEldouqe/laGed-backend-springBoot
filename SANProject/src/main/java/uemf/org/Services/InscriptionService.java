@@ -8,4 +8,7 @@ public interface InscriptionService {
 	
 	public  List<EtudiantDTO> getAllEtudiantByAnneeScolaire(String annee);
 
+	
+	List<String> getAllAnneScolaires();
+	
 }

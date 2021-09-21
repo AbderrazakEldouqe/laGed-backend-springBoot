@@ -61,10 +61,6 @@ public class EtudiantDocumentServiceImpl implements EtudiantDocumentService{
     Environment env;
 	
 	
-	@Override
-	public List<String> getAllAnneScolaires() {
-		return etudiantDocumentRepository.findAnneeScolaire();
-	}
 
 	 public List getEtudiantDocumentCriteria(String anneScolaire, String typeDocument
 				 ,Long matriculeEtudiant, String nomEtudiant , boolean isDocumentAnnule)

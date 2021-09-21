@@ -8,9 +8,6 @@ import org.springframework.data.repository.query.Param;
 import uemf.org.Entities.EtudiantDocumentEntity;
 
 public interface EtudiantDocumentRepository extends JpaRepository<EtudiantDocumentEntity, Long>,EtudiantDocumentRepositoryCustom {
-
-	  @Query(value="SELECT DISTINCT(annee_scolaire) from etudiants_documents",  nativeQuery = true)
-	  List<String> findAnneeScolaire();
 	  
 	// List<EtudiantDocumentEntity> findDistinctAllByAnneeScolaire(String anneeScolaire);
 	  

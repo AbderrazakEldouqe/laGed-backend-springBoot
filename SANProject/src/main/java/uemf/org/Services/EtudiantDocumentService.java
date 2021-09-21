@@ -12,8 +12,6 @@ import uemf.org.Requests.UploadFilesRequest;
 
 public interface EtudiantDocumentService {
 
-
-    List<String> getAllAnneScolaires();
     
     EtudiantDocumentDTO getDocumentById (Long idDocument);
     

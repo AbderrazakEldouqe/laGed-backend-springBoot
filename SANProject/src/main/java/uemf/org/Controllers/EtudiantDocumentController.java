@@ -43,13 +43,7 @@ public class EtudiantDocumentController {
 	EtudiantDocumentService etudiantDocumentService;
 	
 	
-	@ApiOperation(value = "getAllAnneScolaires")
-	@GetMapping("/getAllAnneScolaires")
-	public List<String> getAllAnneScolaires()
-	{
-		return  etudiantDocumentService.getAllAnneScolaires();
-	   
-	}
+
 	
 	@ApiOperation(value = "getEtudiantDocumentCriteria")
 	@GetMapping("/getEtudiantDocumentCriteria")

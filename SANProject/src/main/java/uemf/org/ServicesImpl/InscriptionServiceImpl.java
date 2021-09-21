@@ -31,4 +31,11 @@ public class InscriptionServiceImpl implements InscriptionService{
 	}
 	
 	
+	
+	@Override
+	public List<String> getAllAnneScolaires() {
+		return inscriptionRepository.findAnneeScolaire();
+	}
+
+	
 }

@@ -56,6 +56,10 @@ public class EtudiantDocumentEntity {
 	@ManyToOne
 	@JoinColumn(name="nom_createur")
 	private UserEntity createur;
+	
+	@JoinColumn(name="is_annule")
+	private boolean isAnnule = false;
+
 
 	
 

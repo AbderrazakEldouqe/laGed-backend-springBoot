@@ -53,7 +53,7 @@ public class EtudiantDocumentController {
 	
 	@ApiOperation(value = "getEtudiantDocumentCriteria")
 	@GetMapping("/getEtudiantDocumentCriteria")
-	public List<EtudiantDocumentDTO> getEtudiantDocumentCriteria(
+	public List getEtudiantDocumentCriteria(
 
 			@RequestParam(name = "anneeScolaire" ,required=false) String anneeScolaire,
 
@@ -61,10 +61,13 @@ public class EtudiantDocumentController {
 			
 			@RequestParam(name = "matriculeEtudiant" ,required=false) Long matriculeEtudiant,
 
-			@RequestParam(name = "nomEtudiant" ,required=false) String nomEtudiant){
+			@RequestParam(name = "nomEtudiant" ,required=false) String nomEtudiant,
+			
+			@RequestParam(name = "isDocumentAnnule" ,required=true)  boolean isDocumentAnnule
+			){
 
 		
-		return etudiantDocumentService.getEtudiantDocumentCriteria(anneeScolaire, typeDocument, matriculeEtudiant, nomEtudiant);
+		return etudiantDocumentService.getEtudiantDocumentCriteria(anneeScolaire, typeDocument, matriculeEtudiant, nomEtudiant, isDocumentAnnule);
 	}
 
 	@ApiOperation(value = "getCountAllDocuments")

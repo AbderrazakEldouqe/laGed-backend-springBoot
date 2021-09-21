@@ -22,7 +22,7 @@ public interface EtudiantDocumentService {
     Long getCountAllDocuments();
     
     List<EtudiantDocumentDTO> getEtudiantDocumentCriteria(String anneScolaire, String typeDocument
-			 ,Long matriculeEtudiant, String nomEtudiant);
+			 ,Long matriculeEtudiant, String nomEtudiant, boolean isDocumentAnnule);
     
 
     void uploadListFile(UploadFilesRequest uploadFilesRequest);

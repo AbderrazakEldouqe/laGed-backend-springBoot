@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
@@ -31,6 +32,7 @@ import uemf.org.Models.EtudiantDocumentDTO;
 import uemf.org.Repositories.EtudiantDocumentRepository;
 import uemf.org.Requests.FileRequest;
 import uemf.org.Requests.UploadFilesRequest;
+import uemf.org.Services.EtudiantDocumentAnnuleService;
 import uemf.org.Services.EtudiantDocumentService;
 import uemf.org.Services.UserService;
 import uemf.org.Transformers.EtudiantDocumentTransformer;
@@ -42,6 +44,11 @@ public class EtudiantDocumentServiceImpl implements EtudiantDocumentService{
 	
 	@Autowired
 	EtudiantDocumentRepository etudiantDocumentRepository;
+	
+	
+	@Autowired
+	EtudiantDocumentAnnuleService etudiantDocumentAnnuleService;
+	
 	
 	@Autowired
 	EtudiantDocumentTransformer etudiantDocumentTransformer;
@@ -59,8 +66,8 @@ public class EtudiantDocumentServiceImpl implements EtudiantDocumentService{
 		return etudiantDocumentRepository.findAnneeScolaire();
 	}
 
-	 public List<EtudiantDocumentDTO> getEtudiantDocumentCriteria(String anneScolaire, String typeDocument
-				 ,Long matriculeEtudiant, String nomEtudiant)
+	 public List getEtudiantDocumentCriteria(String anneScolaire, String typeDocument
+				 ,Long matriculeEtudiant, String nomEtudiant , boolean isDocumentAnnule)
 	 {
 		 
 		 List<String> allCriteres= new ArrayList<String>();
@@ -78,8 +85,20 @@ public class EtudiantDocumentServiceImpl implements EtudiantDocumentService{
 			   log.info("Search avec :{} ", critere);
 		   }
 		   
+		   if(isDocumentAnnule)
+		   {
+			   return etudiantDocumentAnnuleService.getEtudiantDocumentAnnulesCriteria(anneScolaire, typeDocument, matriculeEtudiant, nomEtudiant);
+		  
+		   }
+		  else 
+		   {
 			return etudiantDocumentRepository.getEtudiantDocumentCriteria(anneScolaire, typeDocument, matriculeEtudiant, nomEtudiant)
 					 .stream().map(etudiantDocumentTransformer::entityToDTO).collect(Collectors.toList());
+			
+	        }
+			
+			
+			
 			
 		} catch (Exception e) {
 			log.error("ERROR HORS DE LA METHODE getEtudiantDocumentCriteria :{}", e.getMessage());

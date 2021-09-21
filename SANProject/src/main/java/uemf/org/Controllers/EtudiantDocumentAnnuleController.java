@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +16,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.SwaggerDefinition;
 import io.swagger.annotations.Tag;
 import uemf.org.Models.EtudiantDocumentAnnuleDTO;
+import uemf.org.Models.EtudiantDocumentDTO;
+import uemf.org.Requests.FileRequest;
 import uemf.org.Services.EtudiantDocumentAnnuleService;
 
 @CrossOrigin("*")
@@ -47,4 +51,21 @@ public class EtudiantDocumentAnnuleController {
 		return etudiantDocumentAnnuleService.getEtudiantDocumentAnnulesCriteria(anneeScolaire, typeDocument, matriculeEtudiant, nomEtudiant);
 	}
 
+	
+	
+	
+	
+	@ApiOperation(value = "annuleeEtudiantDocument")
+    @PostMapping("/annuleeEtudiantDocument")
+	public EtudiantDocumentAnnuleDTO updateFile(@RequestBody EtudiantDocumentAnnuleDTO etudiantDocumentAnnule)
+	 {
+		return  etudiantDocumentAnnuleService.saveDocumentAnnule(etudiantDocumentAnnule.getIdEtudiantDocumentAnnule(), etudiantDocumentAnnule.getMotif());
+	 }  
+
+	
+	
+		
+	
+	
+	
 }

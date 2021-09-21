@@ -9,7 +9,10 @@ public interface EtudiantDocumentAnnuleService {
 
 	 List<EtudiantDocumentAnnuleDTO> getEtudiantDocumentAnnulesCriteria(String anneScolaire, String typeDocument
 			 ,Long matriculeEtudiant, String nomEtudiant);
-
 	 
+	 
+	 
+
+	 EtudiantDocumentAnnuleDTO saveDocumentAnnule(Long idDoc , String motif);
 	 
 }

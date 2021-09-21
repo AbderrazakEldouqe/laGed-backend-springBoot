@@ -14,5 +14,6 @@ public class EtudiantDTO implements Serializable {
 	private Long idEtudiant;
 	private String nom;
 	private String prenom;
+	private String email;
 	
 }

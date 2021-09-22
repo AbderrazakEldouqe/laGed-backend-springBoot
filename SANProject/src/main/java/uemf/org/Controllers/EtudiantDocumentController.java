@@ -27,6 +27,7 @@ import io.swagger.annotations.Tag;
 import uemf.org.Mailing.MailService;
 import uemf.org.Models.EtudiantDocumentDTO;
 import uemf.org.Requests.FileRequest;
+import uemf.org.Requests.ShareFileRequest;
 import uemf.org.Requests.UploadFilesRequest;
 import uemf.org.Security.TokenProvider;
 import uemf.org.Services.EtudiantDocumentService;
@@ -128,10 +129,10 @@ public class EtudiantDocumentController {
 
 
 	@ApiOperation(value = "shareFile")
-    @GetMapping("/shareFile/{idFile}")
-    public void shareFile(@PathVariable("idFile") Long idFile, String email ) throws Exception
+    @PostMapping("/shareFile")
+    public void shareFile(@RequestBody ShareFileRequest shareFileRequest) throws Exception
     {
-        mailService.sendEmailEtudiant(email, idFile);
+        mailService.sendEmailEtudiant(shareFileRequest.getEmail(), shareFileRequest.getIdFile());
       
     }
 	

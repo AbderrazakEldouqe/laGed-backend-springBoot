@@ -24,6 +24,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.SwaggerDefinition;
 import io.swagger.annotations.Tag;
+import uemf.org.Mailing.MailService;
 import uemf.org.Models.EtudiantDocumentDTO;
 import uemf.org.Requests.FileRequest;
 import uemf.org.Requests.UploadFilesRequest;
@@ -41,6 +42,9 @@ public class EtudiantDocumentController {
 	
 	@Autowired
 	EtudiantDocumentService etudiantDocumentService;
+	
+	@Autowired
+	MailService mailService;
 	
 	
 
@@ -123,6 +127,13 @@ public class EtudiantDocumentController {
 	 }  
 
 
+	@ApiOperation(value = "shareFile")
+    @GetMapping("/shareFile/{idFile}")
+    public void shareFile(@PathVariable("idFile") Long idFile, String email ) throws Exception
+    {
+        mailService.sendEmailEtudiant(email, idFile);
+      
+    }
 	
 	
 	

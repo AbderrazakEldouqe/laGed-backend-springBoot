@@ -57,8 +57,8 @@ public class AuthentificationServiceImpl implements AuthentificationService , Us
 					System.out.println("Password:  "+userEntity.getPassWord());
 
 				}
-			
 			*/
+			
 
 			UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(login,passWord);
 			Authentication authenticationRequest = authenticationManager.authenticate(authenticationToken);

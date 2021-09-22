@@ -5,16 +5,22 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import uemf.org.Entities.EtudiantEntity;
 import uemf.org.Exceptions.BadRequestException;
+import uemf.org.Models.CustomUserDetailsDTO;
 import uemf.org.Models.EtudiantDTO;
 import uemf.org.Models.EtudiantDocumentDTO;
+import uemf.org.Models.UserDTO;
 import uemf.org.Repositories.EtudiantDocumentRepository;
 import uemf.org.Repositories.EtudiantRepository;
 import uemf.org.Services.EtudiantService;
+import uemf.org.Services.UserService;
 import uemf.org.Transformers.EtudiantDocumentTransformer;
 import uemf.org.Transformers.EtudiantTransformer;
 
@@ -35,6 +41,9 @@ public class EtudiantServiceImpl implements EtudiantService{
 	
 	@Autowired
 	EtudiantTransformer etudiantTransformer;
+	
+	@Autowired
+	UserService userService;
 	
 	@Override
 	public Long getCountAllEtudiants() {

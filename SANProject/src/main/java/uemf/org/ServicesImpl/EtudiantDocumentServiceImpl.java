@@ -29,6 +29,7 @@ import uemf.org.Exceptions.ConflitException;
 import uemf.org.Exceptions.NotFoundException;
 import uemf.org.Models.CustomUserDetailsDTO;
 import uemf.org.Models.EtudiantDocumentDTO;
+import uemf.org.Models.UserDTO;
 import uemf.org.Repositories.EtudiantDocumentAnnuleRepository;
 import uemf.org.Repositories.EtudiantDocumentRepository;
 import uemf.org.Requests.FileRequest;
@@ -174,9 +175,9 @@ public class EtudiantDocumentServiceImpl implements EtudiantDocumentService{
 			      	etudiantDocumentDTO.setNomDoc(fileRequest.getFileName());
 			      	etudiantDocumentDTO.setFileBase64(fileRequest.getFilebase64());
 			      	etudiantDocumentDTO.setDateCreation(new Date());
-		
-			      	CustomUserDetailsDTO auth = (CustomUserDetailsDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			      	etudiantDocumentDTO.setCreateur(userService.getUserById(auth.getIdUser()));
+			      	UserDTO userDTO = userService.getCurrentUser();
+			      	if(userDTO != null)
+			      	etudiantDocumentDTO.setCreateur(userDTO);
 			      	
 			        etudiantDocumentRepository.save(etudiantDocumentTransformer.DTOToEntity(etudiantDocumentDTO));
 			        log.info("FIN DE LA METHODE uploadListFile");

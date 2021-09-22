@@ -5,6 +5,9 @@ import uemf.org.Models.UserDTO;
 public interface UserService {
 	
 	UserDTO getUserById(Long id);
+	
+	UserDTO getCurrentUser();
+
 
 	
 

@@ -13,11 +13,14 @@ import uemf.org.Entities.EtudiantDocumentAnnuleEntity;
 import uemf.org.Entities.EtudiantDocumentEntity;
 import uemf.org.Exceptions.BadRequestException;
 import uemf.org.Models.EtudiantDocumentAnnuleDTO;
+import uemf.org.Models.UserDTO;
 import uemf.org.Repositories.EtudiantDocumentAnnuleRepository;
 import uemf.org.Repositories.EtudiantDocumentRepository;
 import uemf.org.Services.EtudiantDocumentAnnuleService;
+import uemf.org.Services.UserService;
 import uemf.org.Transformers.EtudiantDocumentAnnuleTransformer;
 import uemf.org.Transformers.EtudiantDocumentTransformer;
+import uemf.org.Transformers.UserTransformer;
 
 @Service
 @Slf4j
@@ -34,6 +37,13 @@ public class EtudiantDocumentAnnuleServiceImpl implements EtudiantDocumentAnnule
 	
 	@Autowired
 	EtudiantDocumentAnnuleTransformer etudiantDocumentAnnuleTransformer;
+	
+
+	@Autowired
+	UserTransformer userTransformer;
+	
+	@Autowired
+	UserService userService;
 	
 	
 	@Override
@@ -80,7 +90,13 @@ public class EtudiantDocumentAnnuleServiceImpl implements EtudiantDocumentAnnule
 			 etudiantDocumentEntity = etudiantDocumentRepository.findById(idDoc).get();
 			 etudiantDocumentAnnule.setMotif(motif);
 			 etudiantDocumentAnnule.setDateAnnulation(new Date());
-			//etudiantDocumentAnnule.getAnnulePar();
+			 UserDTO userDTO = userService.getCurrentUser();
+		     if(userDTO != null)
+		     {
+		    	 etudiantDocumentAnnule.setAnnulePar(userTransformer.DTOToEntity(userDTO)); 
+		     }
+		    	 
+			 
 			 etudiantDocumentAnnule.setEtudiantDocumentEntity(etudiantDocumentEntity);
 			 etudiantDocumentAnnule.getEtudiantDocumentEntity().setAnnule(true);
 			 etudiantDocumentAnnuleRepository.save(etudiantDocumentAnnule);

@@ -1,6 +1,8 @@
 package uemf.org.ServicesImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +32,23 @@ public class UserServiceImpl implements UserService{
 			log.error("ERROR HORS DE LA METHODE getUserById :{}", e.getMessage());
 			throw new BadRequestException(e.getMessage());
 		}
+	}
+
+
+	@Override
+	public UserDTO getCurrentUser() {
+		
+		try {
+			log.info("DEBUT DE LA METHODE getCurrentUser");
+			Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			String username = ((UserDetails)principal).getUsername();
+			log.info(" getUserByLogin :{}", username);
+			return  userTransformer.entityToDTO(userRepository.findByLogin(username));
+		} catch (Exception e) {
+			log.error("ERROR HORS DE LA METHODE getUserByLogin :{}", e.getMessage());
+			throw new BadRequestException(e.getMessage());
+		}
+		
 	}
 
 

@@ -12,7 +12,7 @@ public interface EtudiantRepository extends JpaRepository<EtudiantEntity, Long> 
 	
 
 	
-	@Query(value="select distinct e.* from etudiants e , etudiants_documents ed where e.id_etudiant = ed.id_etudiant and ed.annee_scolaire=? ",  nativeQuery = true)
+	@Query(value="select distinct e.* from etudiants e , etudiants_documents ed where e.matricule_etud = ed.id_etudiant and ed.annee_scolaire=? ",  nativeQuery = true)
 	List<EtudiantEntity> findAllEtudiantByAnneeScolaire(@Param("anneeScolaire") String anneeScolaire);
 
 }

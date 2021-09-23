@@ -39,7 +39,7 @@ public class EtudiantDocumentAnnuleRepositoryCustomImpl implements EtudiantDocum
 	            predicates.add(cb.equal(etudiantDocumentAnnules.get("etudiantDocumentEntity").get("anneeScolaire"), anneScolaire ));
 	        }
 	        if (typeDocument != null && !"".equals(typeDocument)) {
-	            predicates.add(cb.equal(etudiantDocumentAnnules.get("etudiantDocumentEntity").get("categorieEntity").get("catDoc"), typeDocument ));
+	            predicates.add(cb.equal(etudiantDocumentAnnules.get("etudiantDocumentEntity").get("sousCategorieEntity").get("libelle"), typeDocument ));
 	        }
 	       
 	        if (matriculeEtudiant != null) {
